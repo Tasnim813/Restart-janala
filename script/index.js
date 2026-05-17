@@ -3,14 +3,16 @@ const loadLesson=()=>{
     .then(res=>res.json())
     .then((json)=>displayLesson(json.data))
 }
-
 const removeActive=()=>{
-  const lessonButton=document.querySelectorAll(".lesson-btn")  
-  // console.log(lessonButton) 
-  lessonButton.forEach(brn=>{
-    brn.classList.remove('active')
+  const lessonButton=document.querySelectorAll(".lesson-btn")
+  console.log(lessonButton)
+  lessonButton.forEach(btn=>{
+    btn.classList.remove("active")
   })
+
 }
+
+
 const loadLevelWord=(id)=>{
   
     const uri=`https://openapi.programming-hero.com/api/level/${id}`; 
@@ -18,9 +20,9 @@ const loadLevelWord=(id)=>{
     .then(res=>res.json())
     .then(data=>{
       removeActive()
-      const clicbtn=document.getElementById(`lesson-btn-${id}`) 
-      console.log(clicbtn)
-      clicbtn.classList.add('active')
+     const clickbtn=document.getElementById(`lesson-btn-${id}`);
+     console.log(clickbtn)
+     clickbtn.classList.add("active")
       displayLevelWord(data.data)
     })
 }
@@ -48,7 +50,7 @@ const displayLevelWord=(words)=>{
           "${word.pronunciation ? word.pronunciation : 'Not Found'} / ${word.meaning ? word.meaning : "Not Found"}"
         </div>
         <div class="flex justify-between text-center">
-          <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80] "><i class="fa-solid  fa-circle-info"></i></button>
+          <button onclick="my_modal_5.showModal()" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80] "><i class="fa-solid  fa-circle-info" ></i></button>
           <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid   fa-volume-high"></i></button>
 
         </div>
@@ -60,16 +62,17 @@ const displayLevelWord=(words)=>{
      })
 }
 const displayLesson=(lessons)=>{
-    console.log(lessons)
+    // console.log(lessons)
     const levelContainer=document.getElementById('level-container')
     levelContainer.innerHTML= ' ';
     for(let lesson of lessons){
-        // console.log(lesson)
+        console.log(lesson)
         const btnDiv=document.createElement("div")
         btnDiv.innerHTML=`
         <button id="lesson-btn-${lesson.level_no
-}" onClick="loadLevelWord(${lesson.level_no
-})" class="btn btn-outline lesson-btn btn-primary"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no
+}"
+         onClick="loadLevelWord(${lesson.level_no
+})" class="btn btn-outline  lesson-btn  btn-primary"><i class="fa-solid fa-book-open"></i>Lesson ${lesson.level_no
 } </button>
         `
         levelContainer.append(btnDiv)
