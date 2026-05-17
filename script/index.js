@@ -1,3 +1,9 @@
+const createElement=(arr)=>{
+    const htmlElements=arr.map(el=> `<span class="btn">${el}</span>`)
+    return(htmlElements.join(" "))
+
+}
+
 const loadLesson=()=>{
     fetch("https://openapi.programming-hero.com/api/levels/all")
     .then(res=>res.json())
@@ -26,6 +32,40 @@ const loadLevelWord=(id)=>{
       displayLevelWord(data.data)
     })
 }
+const loadWordDetail= async(id)=>{
+
+  const url=`https://openapi.programming-hero.com/api/word/${id}`
+
+  const res=await fetch(url);
+  const details= await res.json();
+  displayLoadWord(details.data)
+
+
+}
+const displayLoadWord=(word)=>{
+  console.log(word)
+  const DetailsContainer=document.getElementById('details-container')
+DetailsContainer.innerHTML=`
+ <div>
+      <h2 class="text-2xl font-bold">${word.word}( <i class="fa-classic fa-solid fa-microphone"></i>    : ${word.pronunciation})</h2>
+    </div>
+    <div>
+      <h2 class=" font-bold">Meaning</h2>
+      <p>${word.meaning} </p>
+    </div>
+    <div>
+      <h2 class=" font-bold">Example</h2>
+      <p>${word.sentence}</p>
+    </div>
+    <div>
+      <h2 class=" font-bold">সমার্থক শব্দ গুলো</h2>
+      <div>${createElement(word.synonyms)}
+ 
+    </div>
+
+    </div>`
+  document.getElementById('my_modal_5').showModal()
+}
 const displayLevelWord=(words)=>{
    
     const wordContainer=document.getElementById("word-container")
@@ -50,7 +90,7 @@ const displayLevelWord=(words)=>{
           "${word.pronunciation ? word.pronunciation : 'Not Found'} / ${word.meaning ? word.meaning : "Not Found"}"
         </div>
         <div class="flex justify-between text-center">
-          <button onclick="my_modal_5.showModal()" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80] "><i class="fa-solid  fa-circle-info" ></i></button>
+          <button onclick="loadWordDetail(${word.id})" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80] "><i class="fa-solid  fa-circle-info" ></i></button>
           <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF80]"><i class="fa-solid   fa-volume-high"></i></button>
 
         </div>
